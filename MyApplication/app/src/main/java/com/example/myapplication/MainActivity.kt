@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun registerscreen(view: View?) {
+        val intent= Intent(this, RegisterAtivity::class.java)
+        startActivity(intent)
+    }
+
     fun VerifyLogin(sql: String){
         val rs = connection?.createStatement()?.executeQuery(sql)
         if (rs != null) {
