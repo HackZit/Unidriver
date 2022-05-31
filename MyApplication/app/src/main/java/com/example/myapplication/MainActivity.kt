@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             if (count == 1) {
                 Toast.makeText(this, "Verificado $count", Toast.LENGTH_SHORT).show()
                 (this.application as GlobalClass).setSomeVariable(user)
-                val intent= Intent(this, SecondActivity::class.java)
+                val intent= Intent(this, rideshows::class.java)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Error $count", Toast.LENGTH_SHORT).show()
