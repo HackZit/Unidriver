@@ -9,7 +9,7 @@ class rideshows : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rideshows)
 
-        val ride = rideshowev("uni","uninorte","12:39PM",R.drawable.ic_launcher_background)
+        val ride = rideshowev("uni","uninorte","12:39PM",R.drawable.coche)
 
         val listaRides = listOf(ride)
 
