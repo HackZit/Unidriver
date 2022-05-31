@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Error $count", Toast.LENGTH_SHORT).show()
+                val intent= Intent(this, RegisterAtivity::class.java)
+                startActivity(intent)
             }
 
         } else {
