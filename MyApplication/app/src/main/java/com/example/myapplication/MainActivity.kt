@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val url = "jdbc:postgresql://$ip:$port/$database?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" // the connection url string
 
 
+
     private var connection: Connection? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
