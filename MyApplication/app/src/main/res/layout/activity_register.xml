@@ -7,6 +7,23 @@
     android:background="#510511"
     tools:context=".RegisterAtivity">
 
+    <EditText
+        android:id="@+id/usertxt8"
+        android:layout_width="376dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="248dp"
+        android:backgroundTint="#000000"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/button2"
         android:layout_width="107dp"
@@ -26,8 +43,7 @@
         android:id="@+id/usertxt7"
         android:layout_width="376dp"
         android:layout_height="48dp"
-        android:layout_marginTop="359dp"
-        android:layout_marginBottom="324dp"
+        android:layout_marginTop="392dp"
         android:backgroundTint="#000000"
         android:ems="10"
         android:hint="Phone number"
@@ -35,7 +51,6 @@
         android:minHeight="48dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +60,7 @@
         android:id="@+id/usertxt6"
         android:layout_width="376dp"
         android:layout_height="48dp"
-        android:layout_marginTop="267dp"
-        android:layout_marginBottom="416dp"
+        android:layout_marginTop="316dp"
         android:backgroundTint="#000000"
         android:ems="10"
         android:hint="Email"
@@ -54,7 +68,6 @@
         android:minHeight="48dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,10 +77,8 @@
         android:id="@+id/usertxt5"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="245dp"
         android:layout_marginTop="176dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="507dp"
         android:backgroundTint="#000000"
         android:ems="10"
         android:hint="Last Name"
@@ -75,10 +86,7 @@
         android:minHeight="48dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -87,7 +95,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="176dp"
-        android:layout_marginEnd="245dp"
         android:layout_marginBottom="507dp"
         android:backgroundTint="#000000"
         android:ems="10"
@@ -97,7 +104,6 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -105,9 +111,9 @@
         android:id="@+id/passwordtxt2"
         android:layout_width="208dp"
         android:layout_height="48dp"
-        android:layout_marginStart="95dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="452dp"
-        android:layout_marginEnd="108dp"
+        android:layout_marginEnd="103dp"
         android:layout_marginBottom="231dp"
         android:ems="10"
         android:hint="Password"
@@ -118,7 +124,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView5"
