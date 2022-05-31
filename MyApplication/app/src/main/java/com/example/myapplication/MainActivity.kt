@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
     }
 
     fun start(view: View?) {
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  user= findViewById<EditText>(R.id.usertxt).text.toString()
             val  pass= findViewById<EditText>(R.id.passwordtxt).text.toString()
-            val sql = "SELECT COUNT(*) as count FROM A_TRAINER WHERE NAME='$user' AND ID=$pass"
+            val sql = "SELECT COUNT(*) as count FROM users WHERE USERNAME='$user' AND PASSWORD='$pass'"
             VerifyLogin(sql)
 
         } catch (e: ClassNotFoundException) {
@@ -87,12 +88,6 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Es nulo", Toast.LENGTH_SHORT).show()
         }
     }
-    fun insertRow(view: View?) {
-        val sql = "INSERT INTO A_TRAINER (ID, NAME, NUM_BADGES) VALUES (3,'sebas',5)"
-        with(connection) {
-            this?.createStatement()?.execute(sql)
-            //this?.commit()
-        }
-    }
+
 }
 
