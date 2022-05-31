@@ -66,7 +66,10 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         googleMap.setOnMyLocationClickListener(this)
         enableMyLocation()
     }
-
+    fun rideshowsscreen(view: View?) {
+        val intent= Intent(this, rideshows::class.java)
+        startActivity(intent)
+    }
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
 

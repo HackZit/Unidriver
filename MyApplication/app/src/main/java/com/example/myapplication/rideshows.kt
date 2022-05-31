@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_rideshows.*
 
 class rideshows : AppCompatActivity() {
@@ -15,5 +17,10 @@ class rideshows : AppCompatActivity() {
 
         val adapter = rideAdapter(this,listaRides)
         lista.adapter = adapter
+    }
+
+    fun secondscreen(view: View?) {
+        val intent= Intent(this, SecondActivity::class.java)
+        startActivity(intent)
     }
 }
