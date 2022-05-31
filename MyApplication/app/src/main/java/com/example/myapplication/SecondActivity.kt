@@ -74,11 +74,11 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  dir_inicio= findViewById<EditText>(R.id.editTextTextPersonName).text.toString()
             val  dir_destino= findViewById<EditText>(R.id.editTextTextPersonName2).text.toString()
-            val  username= MainActivity().user
+            val  username= (this.application as GlobalClass).getSomeVariable()
             val  hora= findViewById<EditText>(R.id.editTextTextPersonName4).text.toString()
-            val  pasajeros= MainActivity().
+            val  pasajeros= (this.application as GlobalClass).getSomeVariable()
             val  num_pasajeros= findViewById<EditText>(R.id.editTextTextPersonName5).text.toString()
-            val sql = "INSERT INTO viajes (dir_destino, dir_inicio, usermain, pasajeros, num_pasajeros, numactual_pasajeros, hora_destino,activo) VALUES ('$dir_destino', '$dir_inicio', '$username', '$pasajeros', $num_pasajeros, 1, '$hora',TRUE)"
+            val sql = "INSERT INTO viajes (idviajes, dir_destino, dir_inicio, usermain, pasajeros, num_pasajeros, numactual_pasajeros, hora_destino, activo) VALUES (DEFAULT, '$dir_destino', '$dir_inicio', '$username', '$pasajeros', $num_pasajeros, 1, '$hora',TRUE)"
             with(connection) {
                 this?.createStatement()?.execute(sql)
                 //this?.commit()

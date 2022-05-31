@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private var connection: Connection? = null
+    var user = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
-            val  user= findViewById<EditText>(R.id.usertxt).text.toString()
+            user= findViewById<EditText>(R.id.usertxt).text.toString()
             val  pass= findViewById<EditText>(R.id.passwordtxt).text.toString()
             val sql = "SELECT COUNT(*) as count FROM users WHERE USERNAME='$user' AND PASSWORD='$pass'"
             VerifyLogin(sql)
@@ -79,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             val count: Int = rs.getInt("count")
             if (count == 1) {
                 Toast.makeText(this, "Verificado $count", Toast.LENGTH_SHORT).show()
+                (this.application as GlobalClass).setSomeVariable(user)
                 val intent= Intent(this, SecondActivity::class.java)
                 startActivity(intent)
             } else {

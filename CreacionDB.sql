@@ -8,19 +8,18 @@ CREATE TABLE IF NOT EXISTS users(
     PRIMARY KEY (USERNAME)
 );
 
-DROP TABLE a_pokemon;
-DROP TABLE a_trainer;
+--DROP TABLE viajes;
 
 CREATE TABLE IF NOT EXISTS viajes(
-    IDviajes int NOT NULL,
+    IDviajes serial primary key,
     dir_destino varchar(255) NOT NULL,
     dir_inicio varchar(255) NOT NULL,
     usermain varchar(255) NOT NULL,
     pasajeros varchar(255) NOT NULL,
     num_pasajeros int NOT NULL,
     numactual_pasajeros int NOT NULL,
-    activo boolean NOT NULL,
-    PRIMARY KEY (IDviajes)
+    hora_destino varchar(255) NOT NULL,
+    activo boolean NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
