@@ -18,19 +18,23 @@ import java.sql.SQLException
 class rideshows : AppCompatActivity() {
 
 
-    private val ip = "ec2-54-165-184-219.compute-1.amazonaws.com" // this is the host ip that your data base exists on you can use 10.0.2.2 for local host                                                    found on your pc. use if config for windows to find the ip if the database exists on                                                    your pc
+    private val ip =
+        "ec2-54-165-184-219.compute-1.amazonaws.com" // this is the host ip that your data base exists on you can use 10.0.2.2 for local host                                                    found on your pc. use if config for windows to find the ip if the database exists on                                                    your pc
 
     private val port = "5432" // the port sql server runs on
 
-    private val Classes = "net.sourceforge.jtds.jdbc.Driver" // the driver that is required for this connection use                                                                           "org.postgresql.Driver" for connecting to postgresql
+    private val Classes =
+        "net.sourceforge.jtds.jdbc.Driver" // the driver that is required for this connection use                                                                           "org.postgresql.Driver" for connecting to postgresql
 
     private val database = "d47r312ehrchj" // the data base name
 
     private val username = "ysugackagnmvja" // the user name
 
-    private val password = "d4907e1eaacb044bee14a4e58e951584db64c73c4664712cbb450e49b7e418d9" // the password
+    private val password =
+        "d4907e1eaacb044bee14a4e58e951584db64c73c4664712cbb450e49b7e418d9" // the password
 
-    private val url = "jdbc:postgresql://$ip:$port/$database?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" // the connection url string
+    private val url =
+        "jdbc:postgresql://$ip:$port/$database?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" // the connection url string
 
     private var connection: Connection? = null
 
@@ -38,12 +42,11 @@ class rideshows : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rideshows)
+        query()
     }
 
 
-
-
-    fun query(view: View?) {
+    fun query() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.INTERNET),
@@ -56,21 +59,31 @@ class rideshows : AppCompatActivity() {
             connection = DriverManager.getConnection(url, username, password)
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
 
-            var ride = rideshowev("test","test","test",R.drawable.coche)
+
+            var ride = rideshowev("test", "test", "test", R.drawable.coche)
             var listaRides = listOf(ride)
+            listaRides = listaRides.minus(ride)
 
             val sql = "SELECT  * FROM viajes WHERE ACTIVO='true'"
             val rs = connection?.createStatement()?.executeQuery(sql)
+
             if (rs != null) {
-                rs.next()
-                var ride = rideshowev(rs.getString(2),rs.getString(3),rs.getString(8),R.drawable.coche)
+                while (!rs.isLast) {
+                    rs.next()
+                    Toast.makeText(this, "comienso " + ride.dir_comienzo, Toast.LENGTH_LONG).show()
+                    var ride = rideshowev(
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(8),
+                        R.drawable.coche
+                    )
+                    listaRides = listaRides.plus(ride)
 
-
-            } else {
-                Toast.makeText(this, "Es nulo", Toast.LENGTH_SHORT).show()
+                }
             }
 
-            val adapter = rideAdapter(this,listaRides)
+
+            val adapter = rideAdapter(this, listaRides)
             lista.adapter = adapter
 
         } catch (e: ClassNotFoundException) {
@@ -83,7 +96,7 @@ class rideshows : AppCompatActivity() {
     }
 
     fun secondscreen(view: View?) {
-        val intent= Intent(this, SecondActivity::class.java)
+        val intent = Intent(this, SecondActivity::class.java)
         startActivity(intent)
     }
 }
