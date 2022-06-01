@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     fun VerifyLogin(sql: String){
         val rs = connection?.createStatement()?.executeQuery(sql)
+    
         if (rs != null) {
             rs.next()
             val count: Int = rs.getInt("count")

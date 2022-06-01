@@ -1,8 +1,10 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
@@ -10,20 +12,21 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
-import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
-import android.annotation.SuppressLint
-import android.location.Location
 import androidx.core.content.ContextCompat
 import com.example.myapplication.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
 import com.example.myapplication.PermissionUtils.isPermissionGranted
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
+import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import java.sql.Connection
+import java.sql.DriverManager
+import java.sql.SQLException
 
 // Implement OnMapReadyCallback.
 class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonClickListener,
@@ -47,12 +50,13 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
     private var connection: Connection? = null
     private var permissionDenied = false
     private lateinit var map: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Set the layout file as the content view.
         setContentView(R.layout.activity_second)
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         // Get a handle to the fragment and register the callback.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
@@ -60,11 +64,18 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
     }
 
     // Get a handle to the GoogleMap object and display marker.
+    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
         enableMyLocation()
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location : Location? ->
+                val curren = location?.let { LatLng(location.latitude, it.longitude) }
+                curren?.let { CameraUpdateFactory.newLatLngZoom(it, 15.0F) }
+                    ?.let { map.animateCamera(it) }
+            }
     }
     fun rideshowsscreen(view: View?) {
         val intent= Intent(this, rideshows::class.java)
