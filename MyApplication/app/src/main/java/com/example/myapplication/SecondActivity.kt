@@ -79,6 +79,8 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
     }
     fun rideshowsscreen(view: View?) {
         val intent= Intent(this, rideshows::class.java)
+        val hora = findViewById<EditText>(R.id.editTextTextPersonName4).text.toString()
+        intent.putExtra("hora",hora)
         startActivity(intent)
     }
     @SuppressLint("MissingPermission")

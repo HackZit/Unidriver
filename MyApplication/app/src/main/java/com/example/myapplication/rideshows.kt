@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_rideshows.*
+import kotlinx.android.synthetic.main.activity_second.*
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -42,7 +43,84 @@ class rideshows : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rideshows)
-        query()
+
+        val intent  = getIntent()
+        val hora = intent.getStringExtra("hora")
+        Toast.makeText(this, "intent "+hora, Toast.LENGTH_LONG).show()
+        if(hora == "") {
+            query()
+        }else {
+            queryFiltered()
+        }
+
+    }
+
+    fun queryFiltered() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.INTERNET),
+            PackageManager.PERMISSION_GRANTED
+        )
+        Toast.makeText(this, "query filtered ", Toast.LENGTH_LONG).show()
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        try {
+            Class.forName(Classes)
+            connection = DriverManager.getConnection(url, username, password)
+
+
+
+            var ride = rideshowev("test", "test", "test", R.drawable.coche)
+            var listaRides = listOf(ride)
+            listaRides = listaRides.minus(ride)
+            val intent  = getIntent()
+            val hora = intent.getStringExtra("hora")
+            val sql1 = "SELECT COUNT(*) as count FROM viajes WHERE ACTIVO='true' AND HORA_DESTINO='$hora'"
+            val rs1 = connection?.createStatement()?.executeQuery(sql1)
+
+            if (rs1 != null) {
+                rs1.next()
+                val count: Int = rs1.getInt("count")
+                Toast.makeText(this, "count "+count, Toast.LENGTH_SHORT).show()
+                if (count == 0) {
+
+                    var ride = rideshowev(
+                        "N/A",
+                        "N/A",
+                        "N/A",
+                        R.drawable.coche
+                    )
+                    listaRides = listaRides.plus(ride)
+                }else{
+                    val sql = "SELECT  * FROM viajes WHERE ACTIVO='true' AND HORA_DESTINO='$hora'"
+                    val rs = connection?.createStatement()?.executeQuery(sql)
+                    if (rs != null) {
+
+                        while (!rs.isLast) {
+                            rs.next()
+                            var ride = rideshowev(
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getString(8),
+                                R.drawable.coche
+                            )
+                            listaRides = listaRides.plus(ride)
+
+                        }
+                    }
+                }
+            }
+
+            val adapter = rideAdapter(this, listaRides)
+            lista.adapter = adapter
+
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+        }
     }
 
 
