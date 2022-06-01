@@ -73,6 +73,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun testperson(view: View?) {
+        val intent= Intent(this, ActiveRide::class.java)
+        startActivity(intent)
+    }
+
     fun VerifyLogin(sql: String){
         val rs = connection?.createStatement()?.executeQuery(sql)
     
