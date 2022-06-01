@@ -220,7 +220,7 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
                 //this?.commit()
 
             }
-            val intent= Intent(this, MainActivity::class.java)
+            val intent= Intent(this, ActiveRide::class.java)
             startActivity(intent)
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
