@@ -61,6 +61,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             .findFragmentById(R.id.map2) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
+        val rides = intent.getSerializableExtra("rides") as rideshowev
         query()
     }
 
