@@ -73,7 +73,7 @@
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:text="Partida: "
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
