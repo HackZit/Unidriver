@@ -82,17 +82,17 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             var DetailsRide = listOf(person)
             DetailsRide = DetailsRide.minus(person)
 
-            val id = 1
+            val id = 2
             val sql1 = "SELECT Pasajeros FROM viajes WHERE idviajes = $id"
             val rs1 = connection?.createStatement()?.executeQuery(sql1)
             var list1: List<String>? = null
             if (rs1 != null) {
                 rs1.next()
-                list1 = rs1.toString().split(",")
+                list1 = rs1.getString(1).split(",")
                 list1.forEach {
                     val sql = "SELECT * FROM users WHERE username = '$it'"
                     val rs = connection?.createStatement()?.executeQuery(sql)
-
+                    println("NOMBRE DE USUARI: " + it)
                     if (rs != null) {
                         rs.next()
 
