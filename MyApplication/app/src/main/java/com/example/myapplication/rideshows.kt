@@ -116,6 +116,12 @@ class rideshows : AppCompatActivity() {
             val adapter = rideAdapter(this, listaRides)
             lista.adapter = adapter
 
+            lista.setOnItemClickListener { parent, view, position, id ->
+                val intent = Intent(this,ActiveRide::class.java)
+                intent.putExtra("rides",listaRides[position])
+                startActivity(intent)
+            }
+
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
             Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
