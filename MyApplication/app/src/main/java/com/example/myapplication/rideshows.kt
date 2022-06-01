@@ -70,7 +70,7 @@ class rideshows : AppCompatActivity() {
 
 
 
-            var ride = rideshowev("test", "test", "test", R.drawable.coche)
+            var ride = rideshowev("test","test", "test", "test", R.drawable.coche)
             var listaRides = listOf(ride)
             listaRides = listaRides.minus(ride)
             val intent  = getIntent()
@@ -88,6 +88,7 @@ class rideshows : AppCompatActivity() {
                         "N/A",
                         "N/A",
                         "N/A",
+                        "N/A",
                         R.drawable.coche
                     )
                     listaRides = listaRides.plus(ride)
@@ -99,6 +100,7 @@ class rideshows : AppCompatActivity() {
                         while (!rs.isLast) {
                             rs.next()
                             var ride = rideshowev(
+                                rs.getString(1),
                                 rs.getString(2),
                                 rs.getString(3),
                                 rs.getString(8),
@@ -138,7 +140,7 @@ class rideshows : AppCompatActivity() {
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
 
 
-            var ride = rideshowev("test", "test", "test", R.drawable.coche)
+            var ride = rideshowev("test","test", "test", "test", R.drawable.coche)
             var listaRides = listOf(ride)
             listaRides = listaRides.minus(ride)
 
@@ -150,6 +152,7 @@ class rideshows : AppCompatActivity() {
                     rs.next()
                     Toast.makeText(this, "comienso " + ride.dir_comienzo, Toast.LENGTH_LONG).show()
                     var ride = rideshowev(
+                        rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(8),
@@ -163,6 +166,11 @@ class rideshows : AppCompatActivity() {
 
             val adapter = rideAdapter(this, listaRides)
             lista.adapter = adapter
+
+            lista.setOnClickListener { parent,view,position,id->
+
+                
+            }
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()

@@ -17,7 +17,9 @@ class rideAdapter(private val mContext: Context, private val listarides: List<ri
         layout.inicio.text = ride.dir_comienzo
         layout.fin.text = ride.dir_destino
         layout.hora.text = ride.hora
+        layout.idviajes.text = ride.id
         layout.imageView.setImageResource(ride.imagen)
+
 
         return layout
     }
