@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,7 +51,10 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
     private var permissionDenied = false
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
+    var id: String? = null
+    var iddest: String? = null
+    var idpart: String? = null
+    var hora: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +66,13 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
         mapFragment!!.getMapAsync(this)
 
         val rides = intent.getSerializableExtra("rides") as rideshowev
+        id = rides.id
+        iddest = rides.dir_destino
+        idpart = rides.dir_comienzo
+        hora = rides.hora
+        findViewById<TextView>(R.id.LugarPartida).text = idpart
+        findViewById<TextView>(R.id.LugarDestino).text = iddest
+        findViewById<TextView>(R.id.Hora).text = hora
         query()
     }
 
@@ -83,7 +94,6 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             var DetailsRide = listOf(person)
             DetailsRide = DetailsRide.minus(person)
 
-            val id = 2
             val sql1 = "SELECT Pasajeros FROM viajes WHERE idviajes = $id"
             val rs1 = connection?.createStatement()?.executeQuery(sql1)
             var list1: List<String>? = null
@@ -136,7 +146,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             .addOnSuccessListener { location : Location? ->
                 val curren = location?.let { LatLng(location.latitude, it.longitude) }
                 curren?.let { CameraUpdateFactory.newLatLngZoom(it, 15.0F) }
-                    ?.let { map.animateCamera(it) }
+                    ?.let { map.moveCamera(it) }
             }
     }
 

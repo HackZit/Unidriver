@@ -220,8 +220,17 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
                 //this?.commit()
 
             }
-            val intent= Intent(this, ActiveRide::class.java)
-            startActivity(intent)
+            val sql1 = "SELECT idviajes FROM viajes ORDER BY idviajes DESC LIMIT 1;"
+            val rs1 = connection?.createStatement()?.executeQuery(sql1)
+            if (rs1 != null) {
+                rs1.next()
+                val intent= Intent(this, ActiveRide::class.java)
+                val ride = rideshowev(rs1.getString(1),dir_destino,dir_inicio,hora, R.drawable.coche)
+                intent.putExtra("rides", ride)
+                startActivity(intent)
+            }
+
+
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
             Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
