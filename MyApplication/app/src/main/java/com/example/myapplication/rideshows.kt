@@ -112,9 +112,9 @@ class rideshows : AppCompatActivity() {
             }
 
             val adapter = rideAdapter(this, listaRides)
-            listareviews.adapter = adapter
+            lista.adapter = adapter
 
-            listareviews.setOnItemClickListener { parent, view, position, id ->
+            lista.setOnItemClickListener { parent, view, position, id ->
                 val intent = Intent(this,ActiveRide::class.java)
                 intent.putExtra("rides",listaRides[position])
                 startActivity(intent)
@@ -169,9 +169,9 @@ class rideshows : AppCompatActivity() {
 
 
             val adapter = rideAdapter(this, listaRides)
-            listareviews.adapter = adapter
+            lista.adapter = adapter
 
-            listareviews.setOnItemClickListener { parent, view, position, id ->
+            lista.setOnItemClickListener { parent, view, position, id ->
                 val intent = Intent(this,ActiveRide::class.java)
                 intent.putExtra("rides",listaRides[position])
                 startActivity(intent)
@@ -188,6 +188,10 @@ class rideshows : AppCompatActivity() {
 
     fun secondscreen(view: View?) {
         val intent = Intent(this, SecondActivity::class.java)
+        startActivity(intent)
+    }
+    fun reviewsview(view: View?) {
+        val intent = Intent(this, reviewshistory::class.java)
         startActivity(intent)
     }
 }
