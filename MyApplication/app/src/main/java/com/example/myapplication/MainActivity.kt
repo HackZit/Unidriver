@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
+            (this.application as GlobalClass).setConnection(connection)
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             user= findViewById<EditText>(R.id.usertxt).text.toString()
             val  pass= findViewById<EditText>(R.id.passwordtxt).text.toString()
@@ -87,6 +88,7 @@ class MainActivity : AppCompatActivity() {
             if (count == 1) {
                 //Toast.makeText(this, "Verificado $count", Toast.LENGTH_SHORT).show()
                 (this.application as GlobalClass).setSomeVariable(user)
+
                 val intent= Intent(this, rideshows::class.java)
                 intent.putExtra("hora","")
                 startActivity(intent)

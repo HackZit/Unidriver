@@ -108,7 +108,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
             val sql1 = "SELECT * FROM viajes WHERE IDviajes = $id"
             val rs1 = connection?.createStatement()?.executeQuery(sql1)
             var pasajeros = ""
@@ -156,7 +156,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  username= (this.application as GlobalClass).getSomeVariable()
 

@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS users(
 );
 
 DROP TABLE reviews;
+DROP TABLE viajes;
+DROP TABLE direcciones;
 
 CREATE TABLE IF NOT EXISTS viajes(
     IDviajes serial primary key,

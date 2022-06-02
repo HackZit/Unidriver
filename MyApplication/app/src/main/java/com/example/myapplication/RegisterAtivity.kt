@@ -52,7 +52,7 @@ class RegisterAtivity : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  user= findViewById<EditText>(R.id.usertxt8).text.toString()
             val  name= findViewById<EditText>(R.id.usertxt4).text.toString()

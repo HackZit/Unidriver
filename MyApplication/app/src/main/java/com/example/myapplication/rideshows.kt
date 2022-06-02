@@ -64,7 +64,7 @@ class rideshows : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
 
 
 
@@ -140,7 +140,7 @@ class rideshows : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
 
 

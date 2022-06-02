@@ -2,8 +2,11 @@ package com.example.myapplication
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.StrictMode
@@ -16,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat
+import com.directions.route.*
 import com.example.myapplication.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
 import com.example.myapplication.PermissionUtils.isPermissionGranted
+import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
@@ -26,13 +31,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.snackbar.Snackbar
+import java.io.IOException
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
 // Implement OnMapReadyCallback.
 class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonClickListener,
-    OnMyLocationClickListener, OnRequestPermissionsResultCallback {
+    OnMyLocationClickListener, OnRequestPermissionsResultCallback, RoutingListener {
 
     private val ip = "ec2-54-165-184-219.compute-1.amazonaws.com" // this is the host ip that your data base exists on you can use 10.0.2.2 for local host                                                    found on your pc. use if config for windows to find the ip if the database exists on                                                    your pc
 
@@ -53,6 +63,15 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
     private var permissionDenied = false
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    //current and destination location objects
+    var myLocation: Location? = null
+    var destinationLocation: Location? = null
+    protected var start: LatLng? = null
+    protected var end: LatLng? = null
+
+    //polyline object
+    private var polylines: MutableList<Polyline>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +82,21 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+        findViewById<EditText>(R.id.editTextTextPersonName).setOnFocusChangeListener(View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                map.clear()
+                start = getLocationFromAddress(this, findViewById<EditText>(R.id.editTextTextPersonName).text.toString() )
+                Findroutes(start, end)
+            }
+        })
+        findViewById<EditText>(R.id.editTextTextPersonName2).setOnFocusChangeListener(View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                map.clear()
+                end = getLocationFromAddress(this, findViewById<EditText>(R.id.editTextTextPersonName2).text.toString())
+                Findroutes(start, end)
+            }
+        })
+
         dir()
     }
     fun dir (){
@@ -75,7 +109,7 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val destinationview = findViewById<AutoCompleteTextView>(R.id.editTextTextPersonName2)
             val username= (this.application as GlobalClass).getSomeVariable()
@@ -256,7 +290,7 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         StrictMode.setThreadPolicy(policy)
         try {
             Class.forName(Classes)
-            connection = DriverManager.getConnection(url, username, password)
+            connection = (this.application as GlobalClass).getConnection()
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  dir_inicio= findViewById<EditText>(R.id.editTextTextPersonName).text.toString()
             val  dir_destino= findViewById<EditText>(R.id.editTextTextPersonName2).text.toString()
@@ -291,6 +325,94 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         }
     }
 
+
+    fun Findroutes(Start: LatLng?, End: LatLng?) {
+        if (Start == null || End == null) {
+            //Toast.makeText(this@ActiveRide, "Unable to get location", Toast.LENGTH_LONG).show()
+        } else {
+            val routing = Routing.Builder()
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+                .withListener(this)
+                .alternativeRoutes(true)
+                .waypoints(Start, End)
+                .key("AIzaSyDx10nffpWYVeQYqCbiTDlRRD2TwQjYtHg") //also define your api key here.
+                .build()
+            routing.execute()
+        }
+    }
+
+    //Routing call back functions.
+    override fun onRoutingFailure(e: RouteException) {
+        val parentLayout = findViewById<View>(android.R.id.content)
+        val snackbar: Snackbar = Snackbar.make(parentLayout, e.toString(), Snackbar.LENGTH_LONG)
+        snackbar.show()
+//        Findroutes(start,end);
+    }
+    override fun onRoutingStart() {
+        //Toast.makeText(this@ActiveRide, "Finding Route...", Toast.LENGTH_LONG).show()
+    }
+
+    //If Route finding success..
+    override fun onRoutingSuccess(route: ArrayList<Route>, shortestRouteIndex: Int) {
+        val center = start?.let { CameraUpdateFactory.newLatLng(it) }
+        val zoom = CameraUpdateFactory.zoomTo(16f)
+        polylines?.clear()
+        val polyOptions = PolylineOptions()
+        var polylineStartLatLng: LatLng? = null
+        var polylineEndLatLng: LatLng? = null
+        polylines = ArrayList()
+        //add route(s) to the map using polyline
+        for (i in 0 until route.size) {
+            if (i == shortestRouteIndex) {
+                polyOptions.color(resources.getColor(R.color.teal_200))
+                polyOptions.width(7f)
+                polyOptions.addAll(route[shortestRouteIndex].getPoints())
+                val polyline: Polyline = map.addPolyline(polyOptions)
+                polylineStartLatLng = polyline.points[0]
+                val k = polyline.points.size
+                polylineEndLatLng = polyline.points[k - 1]
+                (polylines as ArrayList<Polyline>).add(polyline)
+            } else {
+            }
+        }
+
+        //Add Marker on route starting position
+        val startMarker = MarkerOptions()
+        startMarker.position(polylineStartLatLng!!)
+        startMarker.title("My Location")
+        map.addMarker(startMarker)
+
+        //Add Marker on route ending position
+        val endMarker = MarkerOptions()
+        endMarker.position(polylineEndLatLng!!)
+        endMarker.title("Destination")
+        map.addMarker(endMarker)
+    }
+    override fun onRoutingCancelled() {
+        Findroutes(start, end)
+    }
+    fun onConnectionFailed(connectionResult: ConnectionResult) {
+        Findroutes(start, end)
+    }
+
+    fun getLocationFromAddress(context: Context?, strAddress: String?): LatLng? {
+        val coder = Geocoder(context)
+        val address: List<Address>?
+        var p1: LatLng? = null
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5)
+            if (address == null) {
+                return null
+            }
+            val location: Address = address[0]
+            p1 = LatLng(location.getLatitude(), location.getLongitude())
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            Toast.makeText(this@SecondActivity, "Unable to get location", Toast.LENGTH_LONG).show()
+        }
+        return p1
+    }
 
 
 
