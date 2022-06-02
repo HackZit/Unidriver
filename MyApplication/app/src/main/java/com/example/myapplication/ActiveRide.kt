@@ -98,7 +98,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             }
             val  username= (this.application as GlobalClass).getSomeVariable()
             val sql = "UPDATE viajes SET pasajeros = '$pasajeros,$username' WHERE IDViajes = $id"
-
+            connection?.createStatement()?.executeQuery(sql)
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
             Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
