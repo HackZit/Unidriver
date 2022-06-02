@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_active_ride.*
+import kotlinx.android.synthetic.main.activity_reviews_history_active.*
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -45,6 +47,8 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
 
     private val url =
         "jdbc:postgresql://$ip:$port/$database?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" // the connection url string
+
+    private lateinit var ratingBar: RatingBar
 
 
     private var connection: Connection? = null
@@ -72,6 +76,35 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
         findViewById<TextView>(R.id.part).text = idpart
         findViewById<TextView>(R.id.dest).text = iddest
         findViewById<TextView>(R.id.houru).text = hora
+        val  username= (this.application as GlobalClass).getSomeVariable()
+        val sql3 = "Select puntaje from reviews where IDviajes = $id and USERNAME = '$username'"
+        val rs3 = connection?.createStatement()?.executeQuery(sql3)
+        ratingBar = findViewById(R.id.ratingBar)
+
+        if (rs3 != null) {
+            rs3.next()
+            println("ENTREEEEEEEEE")
+            if (rs3.equals(null)){
+                println("entreeeeeeeeeeeeeeeeeeeeeeeeeeeeeee null")
+                ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+                    val rat = rating.toInt()
+                    println("rattttttt2"+rat)
+                    val sql = "INSERT INTO reviews(IDviajes,USERNAME,puntaje) VALUES ($id,'$username',$rat)"
+                    with(connection) {
+                        this?.createStatement()?.execute(sql)
+                        //this?.commit()
+                    }
+                }
+            }else{
+
+                println("entreeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+                ratingBar.rating = rs3.getString(1).toFloat()
+                ratingBar.setIsIndicator(false)
+            }
+
+        }else{
+            println("soy nulo")
+        }
         query()
     }
 
