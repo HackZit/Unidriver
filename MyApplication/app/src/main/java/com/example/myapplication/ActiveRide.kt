@@ -76,6 +76,38 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
         query()
     }
 
+    fun unirse(view: View){
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.INTERNET),
+            PackageManager.PERMISSION_GRANTED
+        )
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        try {
+            Class.forName(Classes)
+            connection = DriverManager.getConnection(url, username, password)
+            val sql1 = "SELECT * FROM viajes WHERE IDviajes = $id"
+            val rs1 = connection?.createStatement()?.executeQuery(sql1)
+            var pasajeros = ""
+            if (rs1 != null) {
+                while (!rs1.isLast) {
+                    rs1.next()
+                    pasajeros = rs1.getString(5)
+                }
+            }
+            val  username= (this.application as GlobalClass).getSomeVariable()
+            val sql = "UPDATE viajes SET pasajeros = '$pasajeros,$username' WHERE IDViajes = $id"
+
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+        }
+    }
+
     fun query() {
         ActivityCompat.requestPermissions(
             this,
