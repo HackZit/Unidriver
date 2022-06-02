@@ -1,22 +1,21 @@
 package com.example.myapplication
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import kotlinx.android.synthetic.main.activity_reviewshistory.*
-import kotlinx.android.synthetic.main.activity_rideshows.*
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_active_ride.*
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-
-class reviewshistory : AppCompatActivity() {
+class ReviewsHistoryActive : AppCompatActivity() {
     private val ip =
         "ec2-54-165-184-219.compute-1.amazonaws.com" // this is the host ip that your data base exists on you can use 10.0.2.2 for local host                                                    found on your pc. use if config for windows to find the ip if the database exists on                                                    your pc
 
@@ -35,15 +34,28 @@ class reviewshistory : AppCompatActivity() {
     private val url =
         "jdbc:postgresql://$ip:$port/$database?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory" // the connection url string
 
-    private var connection: Connection? = null
 
+    private var connection: Connection? = null
+    var id: String? = null
+    var iddest: String? = null
+    var idpart: String? = null
+    var hora: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reviewshistory)
+        setContentView(R.layout.activity_reviews_history_active)
+        val rides = intent.getSerializableExtra("rides") as rideshowev
+        id = rides.id
+        iddest = rides.dir_destino
+        idpart = rides.dir_comienzo
+        hora = rides.hora
+        findViewById<TextView>(R.id.part).text = idpart
+        findViewById<TextView>(R.id.dest).text = iddest
+        findViewById<TextView>(R.id.houru).text = hora
         query()
     }
 
     fun query() {
+        /*
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.INTERNET),
@@ -57,44 +69,41 @@ class reviewshistory : AppCompatActivity() {
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  username= (this.application as GlobalClass).getSomeVariable()
 
-            val sql2 = "SELECT * FROM viajes"
-            val rs2 = connection?.createStatement()?.executeQuery(sql2)
-            var ride = rideshowev("test","test", "test", "test", R.drawable.coche)
-            var listaRides = listOf(ride)
-            listaRides = listaRides.minus(ride)
+            var person = persona("test", "test")
+            var DetailsRide = listOf(person)
+            DetailsRide = DetailsRide.minus(person)
 
-            if (rs2 != null){
-                while (!rs2.isLast) {
-                    //antes del while hacer query cantidad total viajes count, dentro del while cantidad total
-                    //por cada viaje hay que leer los pasajeros arranca proceso hecho
-                    rs2.next()
-                    var list1: List<String>? = null
-                    list1 = rs2.getString(5).split(",")
-                    list1.forEach {
-                        if (username.equals(it)) {
+            val sql1 = "SELECT Pasajeros FROM viajes WHERE idviajes = $id"
+            val rs1 = connection?.createStatement()?.executeQuery(sql1)
+            var list1: List<String>? = null
+            if (rs1 != null) {
+                rs1.next()
+                list1 = rs1.getString(1).split(",")
+                list1.forEach {
+                    val sql = "SELECT * FROM users WHERE username = '$it'"
+                    val rs = connection?.createStatement()?.executeQuery(sql)
+                    println("NOMBRE DE USUARI: " + it)
+                    if(it == username){
+                        button6.setVisibility(View.INVISIBLE)
+                    }
+                    if (rs != null) {
+                        rs.next()
 
-                            var ride = rideshowev(
-                                rs2.getString(1),
-                                rs2.getString(2),
-                                rs2.getString(3),
-                                rs2.getString(8),
-                                R.drawable.coche
-                            )
-                            listaRides = listaRides.plus(ride)
-                        }
+                        var person = persona(
+                            rs.getString(2)+ " " + rs.getString(3),
+                            rs.getString(5)
+                        )
+                        Toast.makeText(this, "comienso " + person.fullname, Toast.LENGTH_LONG).show()
+                        DetailsRide = DetailsRide.plus(person)
+
                     }
                 }
+
             }
 
-
-            val adapter = rideAdapter(this, listaRides)
-            listareviewshist.adapter = adapter
-
-            listareviewshist.setOnItemClickListener { parent, view, position, id ->
-                val intent = Intent(this,ReviewsHistoryActive::class.java)
-                intent.putExtra("rides",listaRides[position])
-                startActivity(intent)
-            }
+            val recycle = findViewById<RecyclerView>(R.id.RecyclerViewPersonas)
+            val adapter = TextPersonasAdapter(DetailsRide)
+            recycle.adapter = adapter
 
 
 
@@ -107,5 +116,6 @@ class reviewshistory : AppCompatActivity() {
         }
     }
 
-
+         */
+    }
 }
