@@ -8,6 +8,8 @@ import android.location.Location
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -61,6 +63,20 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+
+        val destinationview = findViewById<AutoCompleteTextView>(R.id.editTextTextPersonName2)
+        val username= (this.application as GlobalClass).getSomeVariable()
+        val sql = "SELECT * FROM direcciones WHERE USERNAME =$username"
+        val rs = connection?.createStatement()?.executeQuery(sql)
+        var destinos = arrayOf("")
+        if (rs != null) {
+            while (!rs.isLast) {
+                rs.next()
+                destinos = destinos.plus(rs.getString(3))
+            }
+        }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, destinos)
+        destinationview.setAdapter(adapter)
     }
 
     // Get a handle to the GoogleMap object and display marker.
