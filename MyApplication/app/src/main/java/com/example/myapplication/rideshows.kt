@@ -154,7 +154,7 @@ class rideshows : AppCompatActivity() {
             if (rs != null) {
                 while (!rs.isLast) {
                     rs.next()
-                    Toast.makeText(this, "comienso " + ride.dir_comienzo, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, "comienso " + ride.dir_comienzo, Toast.LENGTH_LONG).show()
                     var ride = rideshowev(
                         rs.getString(1),
                         rs.getString(2),
