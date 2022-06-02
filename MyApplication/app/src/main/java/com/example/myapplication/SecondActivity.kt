@@ -63,7 +63,9 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
-
+        dir()
+    }
+    fun dir (){
         val destinationview = findViewById<AutoCompleteTextView>(R.id.editTextTextPersonName2)
         val username= (this.application as GlobalClass).getSomeVariable()
 
@@ -89,7 +91,6 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
             }
         }
     }
-
     // Get a handle to the GoogleMap object and display marker.
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
