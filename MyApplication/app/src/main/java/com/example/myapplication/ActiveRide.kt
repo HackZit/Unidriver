@@ -92,7 +92,6 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
         iddest = rides.dir_destino
         idpart = rides.dir_comienzo
         hora = rides.hora
-        println("Ubicacion latlong"+ getLocationFromAddress(this, idpart))
         findViewById<TextView>(R.id.LugarPartida).text = idpart
         findViewById<TextView>(R.id.LugarDestino).text = iddest
         findViewById<TextView>(R.id.Hora).text = hora
