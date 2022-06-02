@@ -59,6 +59,8 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
     var iddest: String? = null
     var idpart: String? = null
     var hora: String? = null
+    var puede: Boolean? = null
+    var count: Int? = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews_history_active)
@@ -76,35 +78,6 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
         findViewById<TextView>(R.id.part).text = idpart
         findViewById<TextView>(R.id.dest).text = iddest
         findViewById<TextView>(R.id.houru).text = hora
-        val  username= (this.application as GlobalClass).getSomeVariable()
-        val sql3 = "Select puntaje from reviews where IDviajes = $id and USERNAME = '$username'"
-        val rs3 = connection?.createStatement()?.executeQuery(sql3)
-        ratingBar = findViewById(R.id.ratingBar)
-
-        if (rs3 != null) {
-            rs3.next()
-            println("ENTREEEEEEEEE")
-            if (rs3.equals(null)){
-                println("entreeeeeeeeeeeeeeeeeeeeeeeeeeeeeee null")
-                ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-                    val rat = rating.toInt()
-                    println("rattttttt2"+rat)
-                    val sql = "INSERT INTO reviews(IDviajes,USERNAME,puntaje) VALUES ($id,'$username',$rat)"
-                    with(connection) {
-                        this?.createStatement()?.execute(sql)
-                        //this?.commit()
-                    }
-                }
-            }else{
-
-                println("entreeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-                ratingBar.rating = rs3.getString(1).toFloat()
-                ratingBar.setIsIndicator(false)
-            }
-
-        }else{
-            println("soy nulo")
-        }
         query()
     }
 
@@ -155,6 +128,40 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
             val adapter = TextPersonasAdapter(DetailsRide)
             recycle.adapter = adapter
 
+            val sql3 = "Select puntaje from reviews where IDviajes = $id and USERNAME = '$username'"
+            val rs3 = connection?.createStatement()?.executeQuery(sql3)
+            ratingBar = findViewById(R.id.ratingBar)
+
+            val sql4 = "Select COUNT(puntaje) from reviews where IDviajes = $id and USERNAME = '$username'"
+            val rs4 = connection?.createStatement()?.executeQuery(sql4)
+
+            if (rs4 != null) {
+                rs4.next()
+                count = rs4.getInt(1)
+            }
+            if (rs3 != null) {
+                rs3.next()
+                println("ENTREEEEEEEEE")
+                if (count!=0){
+                    println("entreeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+                    ratingBar.rating = rs3.getString(1).toFloat()
+                    ratingBar.setIsIndicator(false)
+                }else{
+                    puede = true
+                }
+
+            }
+
+                ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+                    if(puede==true){
+                    val rat = rating.toInt()
+                    val sql = "INSERT INTO reviews(IDviajes,USERNAME,puntaje) VALUES ($id,'$username',$rat)"
+                        with(connection) {
+                           this?.createStatement()?.execute(sql)
+                          //this?.commit()
+                        }
+                    }
+                }
 
 
         } catch (e: ClassNotFoundException) {
