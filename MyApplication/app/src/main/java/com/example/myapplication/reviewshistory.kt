@@ -54,7 +54,7 @@ class reviewshistory : AppCompatActivity() {
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  username= (this.application as GlobalClass).getSomeVariable()
 
             val sql2 = "SELECT * FROM viajes"
@@ -100,10 +100,10 @@ class reviewshistory : AppCompatActivity() {
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
     }
 

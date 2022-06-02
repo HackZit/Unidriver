@@ -44,7 +44,7 @@ class rideshows : AppCompatActivity() {
 
         val intent  = getIntent()
         val hora = intent.getStringExtra("hora")
-        Toast.makeText(this, "intent "+hora, Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "intent "+hora, Toast.LENGTH_LONG).show()
         if(hora == "") {
             query()
         }else {
@@ -59,7 +59,7 @@ class rideshows : AppCompatActivity() {
             arrayOf(Manifest.permission.INTERNET),
             PackageManager.PERMISSION_GRANTED
         )
-        Toast.makeText(this, "query filtered ", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "query filtered ", Toast.LENGTH_LONG).show()
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
         try {
@@ -79,7 +79,7 @@ class rideshows : AppCompatActivity() {
             if (rs1 != null) {
                 rs1.next()
                 val count: Int = rs1.getInt("count")
-                Toast.makeText(this, "count "+count, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "count "+count, Toast.LENGTH_SHORT).show()
                 if (count == 0) {
 
                     var ride = rideshowev(
@@ -122,10 +122,10 @@ class rideshows : AppCompatActivity() {
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -141,7 +141,7 @@ class rideshows : AppCompatActivity() {
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
 
 
             var ride = rideshowev("test","test", "test", "test", R.drawable.coche)
@@ -179,10 +179,10 @@ class rideshows : AppCompatActivity() {
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
     }
 

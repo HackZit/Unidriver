@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             user= findViewById<EditText>(R.id.usertxt).text.toString()
             val  pass= findViewById<EditText>(R.id.passwordtxt).text.toString()
             val sql = "SELECT COUNT(*) as count FROM users WHERE USERNAME='$user' AND PASSWORD='$pass'"
@@ -61,10 +61,10 @@ class MainActivity : AppCompatActivity() {
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -85,19 +85,19 @@ class MainActivity : AppCompatActivity() {
             rs.next()
             val count: Int = rs.getInt("count")
             if (count == 1) {
-                Toast.makeText(this, "Verificado $count", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Verificado $count", Toast.LENGTH_SHORT).show()
                 (this.application as GlobalClass).setSomeVariable(user)
                 val intent= Intent(this, rideshows::class.java)
                 intent.putExtra("hora","")
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Error $count", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Error $count", Toast.LENGTH_SHORT).show()
                 val intent= Intent(this, RegisterAtivity::class.java)
                 startActivity(intent)
             }
 
         } else {
-            Toast.makeText(this, "Es nulo", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Es nulo", Toast.LENGTH_SHORT).show()
         }
     }
 

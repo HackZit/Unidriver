@@ -76,7 +76,7 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val destinationview = findViewById<AutoCompleteTextView>(R.id.editTextTextPersonName2)
             val username= (this.application as GlobalClass).getSomeVariable()
 
@@ -107,10 +107,10 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
 
 
@@ -178,16 +178,14 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-            .show()
+        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT) .show()
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false
     }
 
     override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG)
-            .show()
+        //Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG) .show()
     }
 
     override fun onRequestPermissionsResult(
@@ -259,7 +257,7 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  dir_inicio= findViewById<EditText>(R.id.editTextTextPersonName).text.toString()
             val  dir_destino= findViewById<EditText>(R.id.editTextTextPersonName2).text.toString()
             val  username= (this.application as GlobalClass).getSomeVariable()
@@ -286,10 +284,10 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
     }
 

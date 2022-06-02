@@ -112,7 +112,7 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
         try {
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
-            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             val  username= (this.application as GlobalClass).getSomeVariable()
 
             var person = persona("test", "test")
@@ -136,7 +136,7 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
                             rs.getString(2)+ " " + rs.getString(3),
                             rs.getString(5)
                         )
-                        Toast.makeText(this, "comienso " + person.fullname, Toast.LENGTH_LONG).show()
+                        //Toast.makeText(this, "comienso " + person.fullname, Toast.LENGTH_LONG).show()
                         DetailsRide = DetailsRide.plus(person)
 
                     }
@@ -186,10 +186,10 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
 
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
-            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
         } catch (e: SQLException) {
             e.printStackTrace()
-            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -258,16 +258,14 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-            .show()
+        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT) .show()
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false
     }
 
     override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG)
-            .show()
+        //Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG).show()
     }
 
     override fun onRequestPermissionsResult(
@@ -330,7 +328,7 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
 
     fun Findroutes(Start: LatLng?, End: LatLng?) {
         if (Start == null || End == null) {
-            Toast.makeText(this@ReviewsHistoryActive, "Unable to get location", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this@ReviewsHistoryActive, "Unable to get location", Toast.LENGTH_LONG).show()
         } else {
             val routing = Routing.Builder()
                 .travelMode(AbstractRouting.TravelMode.DRIVING)
@@ -351,7 +349,7 @@ class ReviewsHistoryActive : AppCompatActivity(), OnMapReadyCallback,
 //        Findroutes(start,end);
     }
     override fun onRoutingStart() {
-        Toast.makeText(this@ReviewsHistoryActive, "Finding Route...", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this@ReviewsHistoryActive, "Finding Route...", Toast.LENGTH_LONG).show()
     }
 
     //If Route finding success..
