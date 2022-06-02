@@ -7,11 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_rideshows.*
-import kotlinx.android.synthetic.main.activity_second.*
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -114,9 +112,9 @@ class rideshows : AppCompatActivity() {
             }
 
             val adapter = rideAdapter(this, listaRides)
-            lista.adapter = adapter
+            listareviews.adapter = adapter
 
-            lista.setOnItemClickListener { parent, view, position, id ->
+            listareviews.setOnItemClickListener { parent, view, position, id ->
                 val intent = Intent(this,ActiveRide::class.java)
                 intent.putExtra("rides",listaRides[position])
                 startActivity(intent)
@@ -171,9 +169,9 @@ class rideshows : AppCompatActivity() {
 
 
             val adapter = rideAdapter(this, listaRides)
-            lista.adapter = adapter
+            listareviews.adapter = adapter
 
-            lista.setOnItemClickListener { parent, view, position, id ->
+            listareviews.setOnItemClickListener { parent, view, position, id ->
                 val intent = Intent(this,ActiveRide::class.java)
                 intent.putExtra("rides",listaRides[position])
                 startActivity(intent)
