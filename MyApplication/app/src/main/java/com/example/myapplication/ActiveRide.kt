@@ -102,9 +102,12 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             }
             val  username= (this.application as GlobalClass).getSomeVariable()
             val sql = "UPDATE viajes SET pasajeros = '$pasajeros,$username' WHERE IDViajes = $id"
-            connection?.createStatement()?.executeQuery(sql)
             val sql2 = "UPDATE viajes SET numactual_pasajeros =$numpasajeros  WHERE IDViajes = $id"
-            connection?.createStatement()?.executeQuery(sql2)
+            with(connection) {
+                this?.createStatement()?.execute(sql)
+                this?.createStatement()?.execute(sql2)
+                //this?.commit()
+            }
             button6.setVisibility(View.INVISIBLE)
             query()
         } catch (e: ClassNotFoundException) {

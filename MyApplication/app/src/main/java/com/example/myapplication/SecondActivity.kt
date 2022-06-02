@@ -218,7 +218,6 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
             with(connection) {
                 this?.createStatement()?.execute(sql)
                 //this?.commit()
-
             }
             val sql1 = "SELECT idviajes FROM viajes ORDER BY idviajes DESC LIMIT 1;"
             val rs1 = connection?.createStatement()?.executeQuery(sql1)
