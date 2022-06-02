@@ -98,6 +98,13 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
                     rs1.next()
                     pasajeros = rs1.getString(5)
                     numpasajeros = rs1.getInt(7)+1
+                    if(rs1.getInt(6) == rs1.getInt(7)+1 ){
+                        val sql3= "UPDATE viajes SET active ='false'  WHERE IDViajes = $id"
+                        with(connection) {
+                            this?.createStatement()?.execute(sql3)
+                            //this?.commit()
+                        }
+                    }
                 }
             }
             val  username= (this.application as GlobalClass).getSomeVariable()
@@ -131,7 +138,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             Class.forName(Classes)
             connection = DriverManager.getConnection(url, username, password)
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
-
+            val  username= (this.application as GlobalClass).getSomeVariable()
 
             var person = persona("test", "test")
             var DetailsRide = listOf(person)
@@ -147,6 +154,9 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
                     val sql = "SELECT * FROM users WHERE username = '$it'"
                     val rs = connection?.createStatement()?.executeQuery(sql)
                     println("NOMBRE DE USUARI: " + it)
+                    if(it == username){
+                        button6.setVisibility(View.INVISIBLE)
+                    }
                     if (rs != null) {
                         rs.next()
 
