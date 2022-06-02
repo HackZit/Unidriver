@@ -91,7 +91,7 @@ class reviewshistory : AppCompatActivity() {
             listareviewshist.adapter = adapter
 
             listareviewshist.setOnItemClickListener { parent, view, position, id ->
-                val intent = Intent(this,ReviewsHistoryActive::class.java)
+                val intent = Intent(this, ReviewsHistoryActive::class.java)
                 intent.putExtra("rides",listaRides[position])
                 startActivity(intent)
             }
