@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.android.synthetic.main.activity_active_ride.*
 import kotlinx.android.synthetic.main.activity_rideshows.*
 import java.sql.Connection
 import java.sql.DriverManager
@@ -90,15 +92,21 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
             val sql1 = "SELECT * FROM viajes WHERE IDviajes = $id"
             val rs1 = connection?.createStatement()?.executeQuery(sql1)
             var pasajeros = ""
-            if (rs1 != null) {
+            var numpasajeros = 1
+                if (rs1 != null) {
                 while (!rs1.isLast) {
                     rs1.next()
                     pasajeros = rs1.getString(5)
+                    numpasajeros = rs1.getInt(7)+1
                 }
             }
             val  username= (this.application as GlobalClass).getSomeVariable()
             val sql = "UPDATE viajes SET pasajeros = '$pasajeros,$username' WHERE IDViajes = $id"
             connection?.createStatement()?.executeQuery(sql)
+            val sql2 = "UPDATE viajes SET numactual_pasajeros =$numpasajeros  WHERE IDViajes = $id"
+            connection?.createStatement()?.executeQuery(sql2)
+            button6.setVisibility(View.INVISIBLE)
+            query()
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
             Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
