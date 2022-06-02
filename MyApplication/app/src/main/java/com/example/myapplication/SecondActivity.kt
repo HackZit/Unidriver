@@ -215,8 +215,10 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
             val  pasajeros= (this.application as GlobalClass).getSomeVariable()
             val  num_pasajeros= findViewById<EditText>(R.id.editTextTextPersonName5).text.toString()
             val sql = "INSERT INTO viajes (idviajes, dir_destino, dir_inicio, usermain, pasajeros, num_pasajeros, numactual_pasajeros, hora_destino, activo) VALUES (DEFAULT, '$dir_destino', '$dir_inicio', '$username', '$pasajeros', $num_pasajeros, 1, '$hora',TRUE)"
+            val sql2 = "INSERT INTO direcciones (IDdir, USERNAME, dir_destino) VALUES (DEFAULT, '$username', '$dir_destino')"
             with(connection) {
                 this?.createStatement()?.execute(sql)
+                this?.createStatement()?.execute(sql2)
                 //this?.commit()
             }
             val sql1 = "SELECT idviajes FROM viajes ORDER BY idviajes DESC LIMIT 1;"

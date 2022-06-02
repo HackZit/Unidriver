@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users(
     PRIMARY KEY (USERNAME)
 );
 
---DROP TABLE viajes;
+--DROP TABLE direcciones;
 
 CREATE TABLE IF NOT EXISTS viajes(
     IDviajes serial primary key,
@@ -30,8 +30,7 @@ CREATE TABLE IF NOT EXISTS reviews(
 );
 
 CREATE TABLE IF NOT EXISTS direcciones(
-    IDdir int NOT NULL,
+    IDdir serial primary key,
     USERNAME varchar(255) NOT NULL,
-    dir_destino varchar(255) NOT NULL,
-    PRIMARY KEY (IDdir, USERNAME)
+    dir_destino varchar(255) NOT NULL
 );

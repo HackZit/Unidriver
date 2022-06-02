@@ -99,7 +99,7 @@ class ActiveRide : AppCompatActivity(), OnMapReadyCallback,
                     pasajeros = rs1.getString(5)
                     numpasajeros = rs1.getInt(7)+1
                     if(rs1.getInt(6) == rs1.getInt(7)+1 ){
-                        val sql3= "UPDATE viajes SET active ='false'  WHERE IDViajes = $id"
+                        val sql3= "UPDATE viajes SET activo ='false'  WHERE IDViajes = $id"
                         with(connection) {
                             this?.createStatement()?.execute(sql3)
                             //this?.commit()
