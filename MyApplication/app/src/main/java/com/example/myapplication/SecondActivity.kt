@@ -66,30 +66,54 @@ class SecondActivity: AppCompatActivity(), OnMapReadyCallback, OnMyLocationButto
         dir()
     }
     fun dir (){
-        val destinationview = findViewById<AutoCompleteTextView>(R.id.editTextTextPersonName2)
-        val username= (this.application as GlobalClass).getSomeVariable()
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.INTERNET),
+            PackageManager.PERMISSION_GRANTED
+        )
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        try {
+            Class.forName(Classes)
+            connection = DriverManager.getConnection(url, username, password)
+            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            val destinationview = findViewById<AutoCompleteTextView>(R.id.editTextTextPersonName2)
+            val username= (this.application as GlobalClass).getSomeVariable()
 
-        val sql1 = "SELECT COUNT(*) as count FROM direcciones WHERE USERNAME =$username"
-        val rs1 = connection?.createStatement()?.executeQuery(sql1)
-        if (rs1 != null) {
-            rs1.next()
-            val count: Int = rs1.getInt("count")
-            if (count == 0) {
+            val sql1 = "SELECT COUNT(*) as count FROM direcciones WHERE USERNAME ='$username'"
+            val rs1 = connection?.createStatement()?.executeQuery(sql1)
+            println("RS1")
+            if (rs1 != null) {
+                rs1.next()
+                val count: Int = rs1.getInt("count")
+                println("Count "+ count)
+                if (count == 0) {
 
-            } else {
-                val sql = "SELECT * FROM direcciones WHERE USERNAME =$username"
-                val rs = connection?.createStatement()?.executeQuery(sql)
-                var destinos = arrayOf("")
-                if (rs != null) {
-                    while (!rs.isLast) {
-                        rs.next()
-                        destinos = destinos.plus(rs.getString(3))
+                } else {
+                    val sql = "SELECT * FROM direcciones WHERE USERNAME ='$username'"
+                    val rs = connection?.createStatement()?.executeQuery(sql)
+                    var destinos = arrayOf("")
+                    if (rs != null) {
+                        while (!rs.isLast) {
+                            rs.next()
+                            println("Destino " + rs.getString(3))
+                            destinos = destinos.plus(rs.getString(3))
+                        }
                     }
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, destinos)
+                    destinationview.setAdapter(adapter)
                 }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, destinos)
-                destinationview.setAdapter(adapter)
             }
+
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Class fail", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
+
+
     }
     // Get a handle to the GoogleMap object and display marker.
     @SuppressLint("MissingPermission")
