@@ -55,7 +55,6 @@ class ReviewsHistoryActive : AppCompatActivity() {
     }
 
     fun query() {
-        /*
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.INTERNET),
@@ -114,8 +113,5 @@ class ReviewsHistoryActive : AppCompatActivity() {
             e.printStackTrace()
             Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
-    }
-
-         */
     }
 }
