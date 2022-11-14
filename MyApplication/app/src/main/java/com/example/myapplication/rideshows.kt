@@ -127,6 +127,7 @@ class rideshows : AppCompatActivity() {
             e.printStackTrace()
             //Toast.makeText(this, "Connected no " + e, Toast.LENGTH_LONG).show()
         }
+        
     }
 
 
